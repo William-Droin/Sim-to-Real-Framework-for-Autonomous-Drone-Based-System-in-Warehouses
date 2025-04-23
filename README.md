@@ -6,87 +6,84 @@
 **Thesis Date:** August 15, 2024
 # Sim-to-Real Framework for Autonomous Drone-Based Warehouse Safety Audits
 
-## Project Overview
-This repository presents a comprehensive Sim-to-Real framework designed for deploying autonomous drones to perform safety audits in warehouse environments. The system is developed to detect compliance with safety regulations, particularly the presence or absence of safety vests worn by workers, leveraging computer vision integrated with drone navigation systems.
+# Sim-to-Real Framework for Autonomous Drone-Based Warehouse Safety Audits
 
 ---
 
-## Technical Summary
+## Project Overview
+
+The **Sim-to-Real Framework** is an advanced, integrated solution aimed at revolutionizing warehouse safety management by deploying autonomous drone systems for routine safety audits. It seamlessly combines cutting-edge simulation technology (Nvidia Omniverse's Isaac Sim) with state-of-the-art drone navigation and real-time computer vision to ensure compliance with essential safety regulations—specifically focusing on detecting the presence of safety vests on warehouse personnel. 
+
+This framework addresses multiple operational challenges, providing:
+
+- A highly realistic virtual environment enabling comprehensive drone training scenarios
+- Automated collision avoidance systems to ensure safe navigation in complex warehouse spaces
+- Robust real-time safety compliance monitoring leveraging deep learning and computer vision
+- Scalability for potential multi-drone operations in expansive facilities
+
+---
+
+## Technical Highlights
 
 ### Choice of Tools
 
-**Simulation Environment:**
-- Nvidia Omniverse's Isaac Sim selected for its superior visual fidelity, extensive robotic support, and suitability for Sim-to-Real transitions.
-- The Isaac Sim environment facilitates realistic drone simulations, significantly reducing risks and costs associated with real-world drone testing.
+- **Simulation Environment**: Nvidia Omniverse Isaac Sim (for realistic drone and environment simulations)
+- **Quadcopter Simulation**: Pegasus Simulator for detailed drone modeling
+- **Communication Protocols**: Hybrid ROS (low-level control, video streaming) & Mavlink (high-level control)
+- **Collision Avoidance**: Real-time obstacle detection using depth cameras and ROS integration
+- **Navigation System**: PID-controlled waypoint navigation balanced with proactive collision avoidance
+- **Computer Vision**: Custom dataset generation with Nvidia Replicator, adaptable to TensorFlow and PyTorch frameworks
 
-**Quadcopter:**
-- Pegasus Simulator is employed for realistic drone modeling, allowing integration with ROS and Mavlink protocols.
+### Virtual Warehouse Environment Creation
 
-**Communication Protocol:**
-- Combined use of ROS and Mavlink:
-  - ROS: Low-level interaction and streaming video feed from the drone's onboard cameras.
-  - Mavlink: High-level drone control, particularly effective for waypoint-based navigation.
+- Custom-built virtual warehouse leveraging Nvidia's extensive asset library
+- Detailed realism including manually arranged elements like storage racks, packages, and safety indicators to mimic real operational environments
 
-**Collision Avoidance:**
-- Integrated depth camera streamed via ROS, analyzed by a Python script to detect and avoid obstacles dynamically.
+### Computer Vision Model Implementation
 
-**Navigation Protocol:**
-- Hybrid waypoint system combined with automatic collision avoidance.
-- Utilizes PID controllers to balance navigation accuracy and collision avoidance effectiveness.
+- **Architecture**: ResNet50 CNN (known for its robust and efficient image recognition capabilities)
+- **Adaptation**: Customized output layer specifically for detecting safety compliance
+- **Data Preprocessing**: Enhanced dataset realism with image augmentation techniques
+- **Training**: 16,000 synthetic images over 10 epochs, employing transfer learning
+- **Real-time inference**: Achieved ~63 FPS, supported by temporal smoothing for reliability
 
-**Computer Vision:**
-- Nvidia Replicator module automates synthetic dataset generation, significantly speeding up the data collection process.
-- Supports integration with major deep learning frameworks like TensorFlow and PyTorch.
+---
 
-### Creation of the Virtual Environment
-- Warehouse environment constructed from the ground up using Nvidia Isaac Sim assets.
-- Detailed, realistic warehouse layout including hand-placed elements like shelves, boxes, and safety markers to reflect real-world warehouse complexity.
+## Results and Performance
 
-### Computer Vision Model Selection and Implementation
+### Simulation Optimization
 
-**Model Architecture:**
-- ResNet50 CNN selected for its effective balance between computational efficiency and accuracy.
+- Significant frame-rate improvement (~86% increase using DLSS)
+- Load time optimization (~70% faster using Nvidia Nucleus and Cache)
+- Reduced memory footprint, supporting broader hardware compatibility
 
-**Model Adaptation:**
-- Modified final fully connected layer to distinguish between two classes (safety vest compliance vs. non-compliance).
-- Transfer learning utilized from ImageNet pretrained weights.
+### Drone Control
 
-**Data Preprocessing:**
-- Image resizing, normalization, and augmentation for improved model robustness.
+- Optimal drone navigation achieved with balanced collision avoidance and waypoint accuracy
+- Successful mission completion rate around 70%
 
-**Training Details:**
-- Dataset of 16,000 synthetic images.
-- Training parameters: Batch size of 24, trained over 10 epochs using Adam optimizer (learning rate: 0.001).
+### Computer Vision
 
-**Inference and Post-processing:**
-- Real-time frame processing at approximately 63 FPS, capable of live video stream analysis.
-- Implemented temporal smoothing to mitigate transient misclassifications.
+- High synthetic dataset accuracy (~95%) during initial training
+- Real-time inference capable (processing in ~15.82 ms/frame)
+- Identified critical need for diverse real-world data for improved accuracy (current real-world accuracy ~43%)
 
-### Results
+### Scalability
 
-**Simulation Optimization:**
-- Achieved substantial performance improvements using DLSS technology, optimized loading via Nucleus server, and memory usage reduction through simplified 3D assets.
-
-**Drone Control Performance:**
-- Best results obtained with balanced weights between collision avoidance and waypoint navigation, achieving approximately 70% successful mission completion.
-
-**Computer Vision Performance:**
-- High accuracy (94.6%) during training with synthetic data.
-- Effective real-time processing capabilities with frame inference time ~15.82 ms.
-- Lower accuracy on real-world images (approximately 43%) indicating the need for more diverse training data.
-
-**Scalability:**
-- Framework supports multiple drones under simplified conditions; adjustments required for real-time, multi-drone scenarios.
+- Demonstrated potential for scaling to multi-drone operations under simplified simulation conditions
+- Further optimizations required for seamless multi-drone performance in complex real-world scenarios
 
 ---
 
 ## Future Directions
-- Enhancing dataset diversity for improved real-world generalization.
-- Further refinement of drone navigation algorithms for higher mission accuracy and efficiency.
+
+- Expanding the synthetic dataset to include diverse scenarios for better real-world performance
+- Further enhancing drone navigation algorithms for precision and efficiency
+- Multi-drone coordination to expand operational capabilities
 
 ---
 
-For detailed analysis, results, and methodologies, please refer to the full thesis documentation provided in this repository.
+**For comprehensive insights, detailed methodologies, and complete results analysis, explore the full documentation provided in this repository.**
 
 ## Acknowledgements
 
