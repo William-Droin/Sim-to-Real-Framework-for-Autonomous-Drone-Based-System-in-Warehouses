@@ -4,116 +4,89 @@
 **Institution:** King’s College London  
 **Program:** MSc in Robotics  
 **Thesis Date:** August 15, 2024
+# Sim-to-Real Framework for Autonomous Drone-Based Warehouse Safety Audits
 
-## Abstract
-
-This project presents a **Sim-to-Real framework** that enables autonomous drones to perform **safety audits in warehouse environments**. Leveraging NVIDIA's **Omniverse Isaac Sim**, the system simulates realistic warehouse environments where drones navigate and detect worker compliance (e.g., presence of safety vests). Through a combination of **ROS**, **Mavlink**, and **deep learning** models like **ResNet50**, the solution enables controlled, efficient, and scalable testing before deploying to real-world warehouses.
-
----
-
-## � Objectives
-
-- Develop a **virtual warehouse** environment from scratch.
-- Integrate **autonomous drone control** using ROS and Mavlink.
-- Implement **collision avoidance** and **waypoint navigation**.
-- Create a **custom dataset** using Isaac Sim Replicator.
-- Train and deploy a **computer vision model** to detect safety vest compliance.
+## Project Overview
+This repository presents a comprehensive Sim-to-Real framework designed for deploying autonomous drones to perform safety audits in warehouse environments. The system is developed to detect compliance with safety regulations, particularly the presence or absence of safety vests worn by workers, leveraging computer vision integrated with drone navigation systems.
 
 ---
 
-## Tech Stack
+## Technical Summary
 
-- **Simulation**: NVIDIA Omniverse Isaac Sim, Pegasus Simulator
-- **Drone Control**: ROS 2, Mavlink
-- **Computer Vision**: Python, OpenCV, TensorFlow / PyTorch, ResNet50
-- **Dataset Generation**: Isaac Sim Replicator
-- **Communication Protocols**: ROS topics, MAVLink messages
+### Choice of Tools
 
----
+**Simulation Environment:**
+- Nvidia Omniverse's Isaac Sim selected for its superior visual fidelity, extensive robotic support, and suitability for Sim-to-Real transitions.
+- The Isaac Sim environment facilitates realistic drone simulations, significantly reducing risks and costs associated with real-world drone testing.
 
-## Setup & Installation
+**Quadcopter:**
+- Pegasus Simulator is employed for realistic drone modeling, allowing integration with ROS and Mavlink protocols.
 
-> Recommended: Ubuntu with NVIDIA GPU (VRAM ≥ 10GB)
+**Communication Protocol:**
+- Combined use of ROS and Mavlink:
+  - ROS: Low-level interaction and streaming video feed from the drone's onboard cameras.
+  - Mavlink: High-level drone control, particularly effective for waypoint-based navigation.
 
-1. **Clone the repository**  
-```bash
-git clone https://github.com/yourusername/drone-sim2real-framework.git
-cd drone-sim2real-framework
-```
+**Collision Avoidance:**
+- Integrated depth camera streamed via ROS, analyzed by a Python script to detect and avoid obstacles dynamically.
 
-2. **Set up Isaac Sim**  
-   Download and install Isaac Sim through the [NVIDIA Omniverse launcher](https://developer.nvidia.com/omniverse).
+**Navigation Protocol:**
+- Hybrid waypoint system combined with automatic collision avoidance.
+- Utilizes PID controllers to balance navigation accuracy and collision avoidance effectiveness.
 
-3. **Install dependencies**  
-```bash
-pip install -r requirements.txt
-```
+**Computer Vision:**
+- Nvidia Replicator module automates synthetic dataset generation, significantly speeding up the data collection process.
+- Supports integration with major deep learning frameworks like TensorFlow and PyTorch.
 
-4. **Launch the simulation**  
-   Load the custom warehouse scene in Isaac Sim and start the simulation.
+### Creation of the Virtual Environment
+- Warehouse environment constructed from the ground up using Nvidia Isaac Sim assets.
+- Detailed, realistic warehouse layout including hand-placed elements like shelves, boxes, and safety markers to reflect real-world warehouse complexity.
 
-5. **Run the drone control system**
-```bash
-ros2 launch drone_control control.launch.py
-```
+### Computer Vision Model Selection and Implementation
 
----
+**Model Architecture:**
+- ResNet50 CNN selected for its effective balance between computational efficiency and accuracy.
 
-## Safety Audit Demo
+**Model Adaptation:**
+- Modified final fully connected layer to distinguish between two classes (safety vest compliance vs. non-compliance).
+- Transfer learning utilized from ImageNet pretrained weights.
 
-In this demo, an autonomous drone navigates through a warehouse and identifies workers based on their safety compliance (presence/absence of safety vests).
+**Data Preprocessing:**
+- Image resizing, normalization, and augmentation for improved model robustness.
 
-![Demo Diagram](docs/architecture.png)
+**Training Details:**
+- Dataset of 16,000 synthetic images.
+- Training parameters: Batch size of 24, trained over 10 epochs using Adam optimizer (learning rate: 0.001).
 
----
+**Inference and Post-processing:**
+- Real-time frame processing at approximately 63 FPS, capable of live video stream analysis.
+- Implemented temporal smoothing to mitigate transient misclassifications.
 
-## Performance
+### Results
 
-| Metric                       | Value (Simulated)        |
-|-----------------------------|--------------------------|
-| Drone Navigation Accuracy   | ~70% mission success     |
-| Collision Avoidance         | <10% crash rate          |
-| Computer Vision Accuracy    | 94.6% (Sim), 43% (Real)  |
-| Inference Speed             | ~15ms / frame (63 FPS)   |
-| VRAM Requirement            | ~9.1 GB (Optimized)      |
+**Simulation Optimization:**
+- Achieved substantial performance improvements using DLSS technology, optimized loading via Nucleus server, and memory usage reduction through simplified 3D assets.
 
----
+**Drone Control Performance:**
+- Best results obtained with balanced weights between collision avoidance and waypoint navigation, achieving approximately 70% successful mission completion.
 
-## Repository Structure
+**Computer Vision Performance:**
+- High accuracy (94.6%) during training with synthetic data.
+- Effective real-time processing capabilities with frame inference time ~15.82 ms.
+- Lower accuracy on real-world images (approximately 43%) indicating the need for more diverse training data.
 
-```
-├── docs/                  # Diagrams & documentation
-├── datasets/              # Synthetic training datasets
-├── drone_control/         # ROS/Mavlink scripts
-├── vision/                # Computer vision models
-├── isaac_env/             # Virtual warehouse environment
-├── requirements.txt
-└── README.md
-```
+**Scalability:**
+- Framework supports multiple drones under simplified conditions; adjustments required for real-time, multi-drone scenarios.
 
 ---
 
-## Limitations & Future Work
-
-- Improve **generalization to real-world data** via more diverse datasets.
-- Extend to **multi-drone coordination** and **inventory tasks**.
-- Optimize for **lightweight inference** on embedded drone hardware.
+## Future Directions
+- Enhancing dataset diversity for improved real-world generalization.
+- Further refinement of drone navigation algorithms for higher mission accuracy and efficiency.
 
 ---
 
-## Citation
-
-If you use this work, please cite:
-```
-@mastersthesis{droin2024sim2real,
-  title={Sim-to-Real Framework for Autonomous Drone-Based System in Warehouses},
-  author={William Droin},
-  school={King’s College London},
-  year={2024}
-}
-```
-
----
+For detailed analysis, results, and methodologies, please refer to the full thesis documentation provided in this repository.
 
 ## Acknowledgements
 
