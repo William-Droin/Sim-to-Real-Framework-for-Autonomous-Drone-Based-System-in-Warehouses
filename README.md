@@ -4,6 +4,7 @@
 **Institution:** King’s College London  
 **Program:** MSc in Robotics  
 **Thesis Date:** August 15, 2024
+**Link to thesis:** [Final report (mark: **87%**)](Sim-to-Real-Framework-for-Autonomous-Drone-Based-System-in-Warehouses-Final-Report.pdf)
 # Sim-to-Real Framework for Autonomous Drone-Based Warehouse Safety Audits
 
 # Sim-to-Real Framework for Autonomous Drone-Based Warehouse Safety Audits
